@@ -2,16 +2,14 @@ version: "3.9"
 services:
   db:
     image: postgres:12.1
-    expose:
-      - "5432"
+    ports:
+      - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
   app:
-    build: .
+    image: ghcr.io/annaaleynik/cookbook:master
     ports:
       - "3000:3000"
-    environment:
-      - DATABASE_URL=postgres://postgres:password@db
     depends_on:
       - db
       - redis
@@ -20,7 +18,7 @@ services:
   redis:
     image: "redis:alpine"
   sidekiq:
-    build: .
+    image: ghcr.io/annaaleynik/cookbook:master
     depends_on:
       - app
     command: sh -c 'bundle exec sidekiq'

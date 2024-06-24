@@ -1,5 +1,7 @@
 FROM ruby:2.7.5-alpine as Builder
 
+ARG BUNDLER_VERSION
+
 RUN apk add --update --no-cache \
     gcompat \
     build-base \
@@ -8,6 +10,8 @@ RUN apk add --update --no-cache \
     git \
     tzdata \
     yarn
+
+RUN gem install bundler:$BUNDLER_VERSION
 
 WORKDIR /app
 
